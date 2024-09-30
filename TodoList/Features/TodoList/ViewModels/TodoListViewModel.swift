@@ -152,5 +152,9 @@ class TodoListViewModel: ObservableObject {
         )
     ]
     
+    func removeTodo(id: UUID){
+        todoList.removeAll(where: { $0.id == id })
+    }
+    
     
 }

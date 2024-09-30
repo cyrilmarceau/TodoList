@@ -34,7 +34,7 @@ struct TodoListView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             List(todos.todoList) { todo in
                 NavigationLink(
                     destination: TodoDetailView(todo: todo)
@@ -47,7 +47,9 @@ struct TodoListView: View {
                         Button(action: addToFavorite) {
                             Label("Add to Favorites", systemImage: "heart")
                         }
-                        Button(role: .destructive, action: remove) {
+                        Button(role: .destructive, action: {
+                            todos.removeTodo(id: todo.id)
+                        }) {
                             Label("Delete", systemImage: "trash")
                         }
                     }
@@ -55,7 +57,7 @@ struct TodoListView: View {
                 
             }
         }
-        .listStyle(.insetGrouped)
+        .listStyle(.plain)
         .navigationTitle("To-Do List")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
