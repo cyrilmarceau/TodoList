@@ -19,7 +19,7 @@ struct ContentView: View {
             NavigationView {
                 FavoriteTodoView()
             }.tabItem {
-                Label("Favorites", systemImage: "star")
+                Label("Favorites", systemImage: "heart")
             }
 
             NavigationView {
