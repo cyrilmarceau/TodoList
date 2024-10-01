@@ -10,7 +10,8 @@ import OSLog
 
 struct TodoListView: View {
     
-    @StateObject private var todos = TodoListViewModel()
+    @StateObject private var vm = TodoListViewModel()
+    @State private var searchText: String = ""
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -35,25 +36,28 @@ struct TodoListView: View {
     
     var body: some View {
         NavigationView {
-            List(todos.todoList) { todo in
-                NavigationLink(
-                    destination: TodoDetailView(todo: todo)
-                ) {
-                    VStack(alignment: .leading){
-                        Text(todo.title).font(.headline)
-                        Text(todo.description).font(.subheadline)
-                    }.contextMenu{
-                        Button(action: addToFavorite) {
-                            Label("Add to Favorites", systemImage: "heart")
-                        }
-                        Button(role: .destructive, action: {
-                            todos.removeTodo(id: todo.id)
-                        }) {
-                            Label("Delete", systemImage: "trash")
+            List {
+                ForEach(vm.todoList.filter {searchText.isEmpty ? true : $0.title.contains(searchText)}) { todo in
+                    NavigationLink(
+                        destination: TodoDetailView(todo: todo)
+                    ) {
+                        VStack(alignment: .leading){
+                            Text(todo.title).font(.headline)
+                            Text(todo.description).font(.subheadline)
+                        }.contextMenu{
+                            Button(action: addToFavorite) {
+                                Label("Add to Favorites", systemImage: "heart")
+                            }
+                            Button(role: .destructive, action: {
+                                vm.removeTodo(id: todo.id)
+                            }) {
+                                Label("Delete", systemImage: "trash")
+                            }
                         }
                     }
                 }
             }
+            .searchable(text: $searchText, prompt: "Search a To-Do")
             .listStyle(.plain)
             .navigationTitle("To-Do List")
             .toolbar {
