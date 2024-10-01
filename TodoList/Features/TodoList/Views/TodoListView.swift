@@ -42,7 +42,6 @@ struct TodoListView: View {
                     VStack(alignment: .leading){
                         Text(todo.title).font(.headline)
                         Text(todo.description).font(.subheadline)
-                        
                     }.contextMenu{
                         Button(action: addToFavorite) {
                             Label("Add to Favorites", systemImage: "heart")
@@ -54,23 +53,20 @@ struct TodoListView: View {
                         }
                     }
                 }
-                
+            }
+            .listStyle(.plain)
+            .navigationTitle("To-Do List")
+            .toolbar {
+                Button(action: {
+                    // Action for adding item
+                }) {
+                    Image(systemName: "plus")
+                }
             }
         }
-        .listStyle(.plain)
-        .navigationTitle("To-Do List")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            Button(action: {
-                // Action for adding item
-            }) {
-                Image(systemName: "plus")
-            }
-        }
-        
-        
     }
 }
+
 
 #Preview {
     TodoListView()
