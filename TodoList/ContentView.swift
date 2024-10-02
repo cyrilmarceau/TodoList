@@ -9,12 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
+        var viewModel = TodoListViewModel()
+        
         TabView {
             TodoListView()
+                .environmentObject(viewModel)
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
             FavoriteTodoView()
+                .environmentObject(viewModel)
                 .tabItem {
                     Label("Favorites", systemImage: "heart")
                 }

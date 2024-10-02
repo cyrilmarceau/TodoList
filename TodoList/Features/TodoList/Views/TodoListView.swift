@@ -10,15 +10,17 @@ import OSLog
 
 struct TodoListView: View {
     
-    @StateObject private var vm = TodoListViewModel()
+    @EnvironmentObject var vm: TodoListViewModel
+    
     @State private var searchText: String = ""
+    @State private var showAddTodo: Bool = true
     
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.white  // Set your color here
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]  // Optional: Change title text color
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]  // Optional: For large title
+        appearance.backgroundColor = UIColor.white
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
         
         // Apply the appearance settings to UINavigationBar
         UINavigationBar.appearance().standardAppearance = appearance
@@ -62,9 +64,48 @@ struct TodoListView: View {
             .navigationTitle("To-Do List")
             .toolbar {
                 Button(action: {
-                    // Action for adding item
+                    showAddTodo.toggle()
                 }) {
                     Image(systemName: "plus")
+                }.sheet(isPresented: $showAddTodo) {
+                    AddTodoView().environmentObject(vm)
+                    
+                    //                    NavigationStack {
+                    
+                    //                        Text("Hello").navigationTitle("Add a Todo")
+                    //                            .navigationBarTitleDisplayMode(.inline)
+                    //                            .toolbar {
+                    //                                ToolbarItem(placement: .topBarLeading) {
+                    //                                    Button(action: {
+                    //                                        showAddTodo.toggle()
+                    //                                    }) {
+                    //                                        Image(systemName: "xmark.circle")
+                    //                                    }
+                    //                                }
+                    //                                ToolbarItem(placement: .topBarTrailing) {
+                    //                                    Button(action: {
+                    //
+                    //                                        var td = Todo(
+                    //                                            title: "az",
+                    //                                            description: "ez",
+                    //                                            isCompleted: false,
+                    //                                            createdAt: Date(),
+                    //                                            updatedAt: Date(),
+                    //                                            priority: PriorityEnum.high,
+                    //                                            dueDate: Date(),
+                    //                                            isFavorite: false
+                    //                                        )
+                    //                                        vm.addTodo(todo: td)
+                    //                                        showAddTodo.toggle()
+                    //
+                    //                                    }) {
+                    //                                        Text("Save")
+                    //                                    }
+                    //                                }
+                    //                            }
+                    
+                    //                    }
+                    
                 }
             }
         }
@@ -73,5 +114,5 @@ struct TodoListView: View {
 
 
 #Preview {
-    TodoListView()
+    TodoListView().environmentObject(TodoListViewModel())
 }

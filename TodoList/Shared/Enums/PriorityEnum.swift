@@ -7,6 +7,8 @@
 
 import Foundation
 
-enum PriorityEnum {
+enum PriorityEnum: String, Codable, CaseIterable {
     case high, medium, low
+    
+    var id: Self { self }
 }
