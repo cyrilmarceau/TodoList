@@ -6,24 +6,41 @@
 //
 
 import Foundation
+import SwiftUI
 
 class TodoListViewModel: ObservableObject {
     
-    @Published var todoList: [Todo] = []
+    @Published var todoList: [Todo] = [] {
+        didSet {
+            saveTodos()
+        }
+    }
+    
+    init() {
+        loadTodos()
+    }
+    
+    
     
     func addTodo(todo: Todo){
-        
         todoList.append(todo)
-        
-        print(todoList.count)
     }
     
     func removeTodo(id: UUID){
         return todoList.removeAll(where: { $0.id == id })
     }
-
     
+    private func saveTodos() {
+        if let encodedData = try? JSONEncoder().encode(todoList) {
+            UserDefaults.standard.set(encodedData, forKey: "todoList")
+        }
+    }
     
-    
+    private func loadTodos() {
+        if let savedTodos = UserDefaults.standard.data(forKey: "todoList"),
+           let decodedTodos = try? JSONDecoder().decode([Todo].self, from: savedTodos) {
+            todoList = decodedTodos
+        }
+    }
     
 }

@@ -13,7 +13,8 @@ struct TodoListView: View {
     @EnvironmentObject var vm: TodoListViewModel
     
     @State private var searchText: String = ""
-    @State private var showAddTodo: Bool = true
+    @State private var showAddTodo: Bool = false
+    
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -28,13 +29,9 @@ struct TodoListView: View {
         UINavigationBar.appearance().compactAppearance = appearance
     }
     
-    private func addToFavorite() {
-        
-    }
     
-    private func remove() {
-        
-    }
+    private func toggleFavorite() {}
+    private func deleteTodo() {}
     
     var body: some View {
         NavigationView {
@@ -43,18 +40,50 @@ struct TodoListView: View {
                     NavigationLink(
                         destination: TodoDetailView(todo: todo)
                     ) {
-                        VStack(alignment: .leading){
-                            Text(todo.title).font(.headline)
-                            Text(todo.description).font(.subheadline)
-                        }.contextMenu{
-                            Button(action: addToFavorite) {
-                                Label("Add to Favorites", systemImage: "heart")
+                        var priorityColor: Color {
+                            switch todo.priority {
+                            case .low: return .blue
+                            case .medium: return .orange
+                            case .high: return .red
                             }
-                            Button(role: .destructive, action: {
-                                vm.removeTodo(id: todo.id)
-                            }) {
-                                Label("Delete", systemImage: "trash")
+                        }
+                        HStack(spacing: 16) {
+                            Circle()
+                                .fill(priorityColor)
+                                .frame(width: 12, height: 12)
+                        }
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(todo.title)
+                                .font(.headline).foregroundColor(.primary)
+                            Text(todo.description)
+                                .font(.subheadline).foregroundColor(.secondary)
+                            
+                            HStack {
+                                if let dueDate = todo.dueDate {
+                                    Label(dueDate.formatted(date: .abbreviated, time: .omitted), systemImage: "calendar").font(.caption).foregroundColor(.secondary)
+                                }
+                                
+                                Spacer()
+                                
+                                if todo.isFavorite {
+                                    Image(systemName: "star.fill")
+                                        .foregroundColor(.yellow)
+                                }
                             }
+                        }
+                        Spacer()
+                        
+                        Image(systemName: todo.isCompleted ? "checkmark.circle.fill": "circle")
+                            .foregroundColor(todo.isCompleted ? .green : .secondary)
+                    }.contextMenu{
+                        Button(action: {}) {
+                            Label(todo.isFavorite ? "Remove from Favorites" : "Add to Favorites", systemImage: todo.isFavorite ? "star.slash" : "star")
+                        }
+                        Button(action: {}) {
+                            Label(todo.isCompleted ? "Mark as Incomplete" : "Mark as Complete", systemImage: todo.isCompleted ? "circle" : "checkmark.circle")
+                        }
+                        Button(role: .destructive, action: {}) {
+                            Label("Delete", systemImage: "trash")
                         }
                     }
                 }
@@ -69,43 +98,6 @@ struct TodoListView: View {
                     Image(systemName: "plus")
                 }.sheet(isPresented: $showAddTodo) {
                     AddTodoView().environmentObject(vm)
-                    
-                    //                    NavigationStack {
-                    
-                    //                        Text("Hello").navigationTitle("Add a Todo")
-                    //                            .navigationBarTitleDisplayMode(.inline)
-                    //                            .toolbar {
-                    //                                ToolbarItem(placement: .topBarLeading) {
-                    //                                    Button(action: {
-                    //                                        showAddTodo.toggle()
-                    //                                    }) {
-                    //                                        Image(systemName: "xmark.circle")
-                    //                                    }
-                    //                                }
-                    //                                ToolbarItem(placement: .topBarTrailing) {
-                    //                                    Button(action: {
-                    //
-                    //                                        var td = Todo(
-                    //                                            title: "az",
-                    //                                            description: "ez",
-                    //                                            isCompleted: false,
-                    //                                            createdAt: Date(),
-                    //                                            updatedAt: Date(),
-                    //                                            priority: PriorityEnum.high,
-                    //                                            dueDate: Date(),
-                    //                                            isFavorite: false
-                    //                                        )
-                    //                                        vm.addTodo(todo: td)
-                    //                                        showAddTodo.toggle()
-                    //
-                    //                                    }) {
-                    //                                        Text("Save")
-                    //                                    }
-                    //                                }
-                    //                            }
-                    
-                    //                    }
-                    
                 }
             }
         }

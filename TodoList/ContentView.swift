@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        var viewModel = TodoListViewModel()
+        let viewModel = TodoListViewModel()
         
         TabView {
             TodoListView()
