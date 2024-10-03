@@ -17,10 +17,8 @@ class TodoListViewModel: ObservableObject {
     }
     
     init() {
-        loadTodos()
+        loadTodos() 
     }
-    
-    
     
     func addTodo(todo: Todo){
         todoList.append(todo)
