@@ -10,5 +10,9 @@ import Foundation
 enum PriorityEnum: String, Codable, CaseIterable {
     case high, medium, low
     
+    static func random() -> PriorityEnum {
+        return allCases.randomElement()!
+    }
+    
     var id: Self { self }
 }

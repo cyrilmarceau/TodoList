@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct AddTodoView: View {
     
     @Environment(\.dismiss) var dismiss
@@ -16,15 +17,22 @@ struct AddTodoView: View {
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var dueDate = Date()
-    @State private var priority: PriorityEnum = .low
+    @State private var priority: PriorityEnum = .high
     @State private var isFavorite: Bool = false
     
     var disableForm: Bool {
         title.isEmpty || description.isEmpty
     }
     
+    
+    
+    
     var body: some View {
         NavigationStack {
+#if DEBUG
+            Button("Prefilled form inputs", action: prefilledFormInputs)
+#endif
+            
             Form {
                 TextField(text: $title) {
                     Text("Hi, I'm a placeholder text.")
@@ -78,7 +86,7 @@ struct AddTodoView: View {
                             dueDate: dueDate,
                             isFavorite: isFavorite
                         )
-           
+                        
                         vm.addTodo(todo: td)
                         
                         dismiss()
@@ -89,6 +97,14 @@ struct AddTodoView: View {
             }
             
         }
+    }
+    
+    private func prefilledFormInputs() {
+        title = "Hello \(vm.todoList.count)"
+        description = "World \(vm.todoList.count)"
+        dueDate = Date().addingTimeInterval(TimeInterval(86400 * Int.random(in: 1..<60)))
+        priority = PriorityEnum.random()
+        isFavorite = arc4random_uniform(2) == 0
     }
 }
 
