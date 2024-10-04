@@ -34,16 +34,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    
+				<string>        todoList.append(todo)
 </string>
 				<key>leading</key>
 				<string>    
-    
+    func addTodo(todo: Todo){
 </string>
 				<key>trailing</key>
-				<string>    func addTodo(todo: Todo){
-        todoList.append(todo)
-    }
+				<string>    }
+    
+
 </string>
 			</dict>
 			<key>type</key>

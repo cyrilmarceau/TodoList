@@ -24,10 +24,7 @@ class TodoListViewModel: ObservableObject {
         todoList.append(todo)
     }
     
-    func removeTodo(id: UUID){
-        return todoList.removeAll(where: { $0.id == id })
-    }
-    
+
     private func saveTodos() {
         if let encodedData = try? JSONEncoder().encode(todoList) {
             UserDefaults.standard.set(encodedData, forKey: "todoList")

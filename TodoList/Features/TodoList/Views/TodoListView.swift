@@ -13,13 +13,13 @@ struct TodoListView: View {
     @State private var selectedItems = Set<UUID>()
     @State private var searchText: String = ""
     @State private var showAddTodo: Bool = false
-
+    
     private var filteredTodo: [Todo] {
         searchText.isEmpty ? vm.todoList : vm.todoList.filter {
-            $0.title.contains(searchText)
+            $0.title.localizedStandardContains(searchText)
         }
     }
-
+    
     var body: some View {
         NavigationView {
             todoList
@@ -32,9 +32,13 @@ struct TodoListView: View {
                 }
         }
     }
-
+    
+    private func delete(offsets: IndexSet){
+        vm.todoList.remove(atOffsets: offsets)
+    }
+    
     private var todoList: some View {
-        List(selection: $selectedItems) {
+        List {
             ForEach(filteredTodo) { todo in
                 NavigationLink(destination: TodoDetailView(todo: todo)) {
                     TodoListRowView(
@@ -42,15 +46,14 @@ struct TodoListView: View {
                         vm: TodoListViewModel()
                     )
                 }
-            }
+            }.onDelete(perform: delete)
         }
     }
-
+    
     private var addButton: some View {
         Button(action: {
             showAddTodo.toggle()
-        }
-        ) {
+        }) {
             Image(systemName: "plus")
         }
         .sheet(
