@@ -53,7 +53,7 @@ class TodoListViewModel: ObservableObject {
 
     }
     
-    func toggleSort() {
+    func toggleSortOrder() {
         sortOrder = sortOrder == .ASC ? .DESC : .ASC
     }
 

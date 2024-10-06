@@ -13,7 +13,7 @@ struct TodoListView: View {
     @State private var selectedItems = Set<UUID>()
     @State private var showAddTodo: Bool = false
     
-
+    
     var body: some View {
         NavigationView {
             todoList
@@ -21,9 +21,10 @@ struct TodoListView: View {
                 .listStyle(.plain)
                 .navigationTitle("To-Do List")
                 .toolbar {
-                    EditButton()
-                    addButton
-
+                    EditToolBarButton
+                    OrderToolBarButton
+                    AddToolBarButton
+            
                 }
             
             
@@ -47,20 +48,37 @@ struct TodoListView: View {
         }
     }
     
-    
-    
-    private var addButton: some View {
-        Button(action: {
-            showAddTodo.toggle()
-        }) {
-            Image(systemName: "plus")
+    private var EditToolBarButton: ToolbarItem<(), some View> {
+        ToolbarItem(placement: .topBarTrailing) {
+            EditButton()
         }
-        .sheet(
-            isPresented: $showAddTodo,
-            content: {
-                AddTodoView().environmentObject(vm)
+    }
+    
+    private var OrderToolBarButton:  ToolbarItem<(), some View> {
+        ToolbarItem(placement: .topBarTrailing){
+            Button(action: {
+                vm.toggleSortOrder()
+            }) {
+                Image(systemName: vm.sortOrder.systemImageName)
+                
             }
-        )
+        }
+    }
+    
+    
+    private var AddToolBarButton: ToolbarItem<(), some View> {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button(action: {
+                showAddTodo.toggle()
+            }) {
+                Image(systemName: "plus.circle")
+            }.sheet(
+                isPresented: $showAddTodo,
+                content: {
+                    AddTodoView().environmentObject(vm)
+                }
+            )
+        }
     }
 }
 
