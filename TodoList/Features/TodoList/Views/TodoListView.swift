@@ -11,25 +11,22 @@ import SwiftUI
 struct TodoListView: View {
     @EnvironmentObject var vm: TodoListViewModel
     @State private var selectedItems = Set<UUID>()
-    @State private var searchText: String = ""
     @State private var showAddTodo: Bool = false
     
-    private var filteredTodo: [Todo] {
-        searchText.isEmpty ? vm.todoList : vm.todoList.filter {
-            $0.title.localizedStandardContains(searchText)
-        }
-    }
-    
+
     var body: some View {
         NavigationView {
             todoList
-                .searchable(text: $searchText, prompt: "Search a To-Do")
+                .searchable(text: $vm.searchText, prompt: "Search a To-Do")
                 .listStyle(.plain)
                 .navigationTitle("To-Do List")
                 .toolbar {
                     EditButton()
                     addButton
+
                 }
+            
+            
         }
     }
     
@@ -39,7 +36,7 @@ struct TodoListView: View {
     
     private var todoList: some View {
         List {
-            ForEach(filteredTodo) { todo in
+            ForEach(vm.filteredAndSortedTodos) { todo in
                 NavigationLink(destination: TodoDetailView(todo: todo)) {
                     TodoListRowView(
                         todo: todo,
@@ -49,6 +46,8 @@ struct TodoListView: View {
             }.onDelete(perform: delete)
         }
     }
+    
+    
     
     private var addButton: some View {
         Button(action: {

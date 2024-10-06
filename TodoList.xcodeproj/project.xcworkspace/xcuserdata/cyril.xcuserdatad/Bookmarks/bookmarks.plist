@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>24</string>
+					<string>61</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>23</string>
+					<string>60</string>
 					<key>Timestamp</key>
-					<string>749658714.180667</string>
+					<string>749909411.834599</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -37,13 +37,13 @@
 				<string>        todoList.append(todo)
 </string>
 				<key>leading</key>
-				<string>    
+				<string>
     func addTodo(todo: Todo){
 </string>
 				<key>trailing</key>
 				<string>    }
     
-
+    
 </string>
 			</dict>
 			<key>type</key>

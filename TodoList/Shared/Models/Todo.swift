@@ -15,6 +15,6 @@ struct Todo: Identifiable, Encodable, Decodable {
     let createdAt: Date
     let updatedAt: Date
     let priority: PriorityEnum
-    let dueDate: Date?
+    let dueDate: Date
     let isFavorite: Bool
 }

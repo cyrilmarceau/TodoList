@@ -24,7 +24,7 @@ struct TodoDetailView: View {
             createdAt: Date(),
             updatedAt: Date(),
             priority: .medium,
-            dueDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()),
+            dueDate: Date().addingTimeInterval(60 * 60 * 24),
             isFavorite: false
         )
     )

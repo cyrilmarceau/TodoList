@@ -17,10 +17,9 @@ struct TodoListRowView: View {
                 Text(todo.title)
                     .font(.headline)
                 
-                if let dueDate = todo.dueDate {
                     Spacer()
                     dueDateView
-                }
+             
             }
             Text(todo.description)
                 .font(.subheadline)
@@ -29,9 +28,9 @@ struct TodoListRowView: View {
     }
     
     private var dueDateView: some View {
-        Text(todo.dueDate?.formatted(
+        Text(todo.dueDate.formatted(
                 date: .abbreviated,
-                time: .omitted) ?? ""
+                time: .omitted)
             ).font(.caption)
             .padding(.trailing, 10)
         
