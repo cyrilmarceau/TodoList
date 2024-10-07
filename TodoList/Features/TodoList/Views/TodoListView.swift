@@ -19,12 +19,21 @@ struct TodoListView: View {
             todoList
                 .searchable(text: $vm.searchText, prompt: "Search a To-Do")
                 .listStyle(.plain)
-                .navigationTitle("To-Do List")
+                .navigationTitle("Tasks")
                 .toolbar {
-                    EditToolBarButton
-                    OrderToolBarButton
-                    AddToolBarButton
-            
+                    Menu {
+                        EditToolBarButton
+                        AddToolBarButton
+                        OrderToolBarButton
+                      
+                    } label : {
+                        Label("Options", systemImage: "ellipsis.circle")
+                    }.sheet(
+                        isPresented: $showAddTodo,
+                        content: {
+                            AddTodoView().environmentObject(vm)
+                        }
+                    )
                 }
             
             
@@ -48,36 +57,24 @@ struct TodoListView: View {
         }
     }
     
-    private var EditToolBarButton: ToolbarItem<(), some View> {
-        ToolbarItem(placement: .topBarTrailing) {
-            EditButton()
+    private var EditToolBarButton: some View {
+        EditButton()
+    }
+    
+    private var OrderToolBarButton: some View {
+        Button(action: {
+            vm.toggleSortOrder()
+        }) {
+            Label(vm.sortOrder.labelTextName, systemImage: vm.sortOrder.systemImageName)
         }
     }
     
-    private var OrderToolBarButton:  ToolbarItem<(), some View> {
-        ToolbarItem(placement: .topBarTrailing){
-            Button(action: {
-                vm.toggleSortOrder()
-            }) {
-                Image(systemName: vm.sortOrder.systemImageName)
-                
-            }
-        }
-    }
-    
-    
-    private var AddToolBarButton: ToolbarItem<(), some View> {
-        ToolbarItem(placement: .topBarTrailing) {
-            Button(action: {
-                showAddTodo.toggle()
-            }) {
-                Image(systemName: "plus.circle")
-            }.sheet(
-                isPresented: $showAddTodo,
-                content: {
-                    AddTodoView().environmentObject(vm)
-                }
-            )
+    private var AddToolBarButton: some View {
+        Button(action: {
+            showAddTodo.toggle()
+        }) {
+            Label("Add new one", systemImage: "plus.circle")
+            
         }
     }
 }

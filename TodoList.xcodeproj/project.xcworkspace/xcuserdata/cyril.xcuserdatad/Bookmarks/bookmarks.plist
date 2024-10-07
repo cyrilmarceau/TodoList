@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>61</string>
+					<string>75</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>60</string>
+					<string>74</string>
 					<key>Timestamp</key>
-					<string>749909411.834599</string>
+					<string>749998321.986873</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,16 +34,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>        todoList.append(todo)
+				<string>    }
 </string>
 				<key>leading</key>
-				<string>
-    func addTodo(todo: Todo){
+				<string>    func addTodo(todo: Todo){
+        todoList.append(todo)
 </string>
 				<key>trailing</key>
-				<string>    }
+				<string>    
     
-    
+    func toggleToFavorite(todo: Todo) {
 </string>
 			</dict>
 			<key>type</key>

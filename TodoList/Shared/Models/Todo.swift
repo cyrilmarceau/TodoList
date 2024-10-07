@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Todo: Identifiable, Encodable, Decodable {
+struct Todo: Identifiable, Encodable, Decodable, Equatable {
     var id = UUID()
     let title: String
     let description: String
@@ -16,5 +16,9 @@ struct Todo: Identifiable, Encodable, Decodable {
     let updatedAt: Date
     let priority: PriorityEnum
     let dueDate: Date
-    let isFavorite: Bool
+    var isFavorite: Bool
+    
+    mutating func toggleIsFavorite () {
+        isFavorite.toggle()
+    }
 }

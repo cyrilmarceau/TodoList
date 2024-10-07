@@ -22,6 +22,13 @@ class TodoListViewModel: ObservableObject {
     enum SortOrder {
         case ASC
         case DESC
+        
+        var labelTextName: String {
+            switch self {
+                case .ASC: return "Ascending"
+                case .DESC: return "Descending"
+            }
+        }
 
         var systemImageName: String {
             switch self {
@@ -50,7 +57,13 @@ class TodoListViewModel: ObservableObject {
             }
             
         }
-
+    }
+    
+    var favoritesFilteredAndSortedTodos: [Todo] {
+        
+        let filteredTodos = filteredAndSortedTodos.filter { $0.isFavorite }
+        
+        return filteredTodos
     }
     
     func toggleSortOrder() {
@@ -61,6 +74,17 @@ class TodoListViewModel: ObservableObject {
         todoList.append(todo)
     }
     
+    
+    func toggleToFavorite(todo: Todo) {
+        print("Swiped to favorite \(todo.id)")
+        
+        let index = todoList.firstIndex(where: {$0.id == todo.id})
+       
+        if index {
+            print(todoList[td])
+        }
+        
+    }
     
     
 

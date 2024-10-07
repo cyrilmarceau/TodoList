@@ -16,7 +16,6 @@ struct TodoListRowView: View {
             HStack(alignment: .center) {
                 Text(todo.title)
                     .font(.headline)
-                
                     Spacer()
                     dueDateView
              
@@ -24,6 +23,16 @@ struct TodoListRowView: View {
             Text(todo.description)
                 .font(.subheadline)
                 .lineLimit(2)
+        }.swipeActions(edge: .leading) {
+            Button {
+                vm.toggleToFavorite(todo: todo)
+            } label: {
+                if todo.isFavorite {
+                    Label("Read", systemImage: "envelope.open")
+                } else {
+                    Label("Unread", systemImage: "envelope.badge")
+                }
+            }
         }
     }
     

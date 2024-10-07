@@ -24,46 +24,60 @@ struct AddTodoView: View {
         title.isEmpty || description.isEmpty
     }
     
-    
-    
-    
     var body: some View {
-        NavigationStack {
-#if DEBUG
-            Button("Prefilled form inputs", action: prefilledFormInputs)
-#endif
-            
-            Form {
-                TextField(text: $title) {
-                    Text("Hi, I'm a placeholder text.")
-                }
-                ZStack(alignment: .leading) {
-                    if description.isEmpty {
+        NavigationStack {NavigationStack {
+            VStack(spacing: 0) {
+                Form {
+                    TextField(text: $title) {
+                        Text("Hi, I'm a placeholder text.")
+                    }
+                    ZStack(alignment: .leading) {
+                        if description.isEmpty {
+                            VStack {
+                                Text("Write something...")
+                                    .padding(.top, 10)
+                                    .padding(.leading, 4)
+                                    .foregroundColor(Color(UIColor.placeholderText))
+                                Spacer()
+                            }
+                        }
+                        
                         VStack {
-                            Text("Write something...")
-                                .padding(.top, 10)
-                                .padding(.leading, 4)
-                                .foregroundColor(Color(UIColor.placeholderText))
+                            TextEditor(text: $description)
+                                .frame(minHeight: 150)
+                                .opacity(1)
                             Spacer()
                         }
                     }
-                    
-                    VStack {
-                        TextEditor(text: $description)
-                            .frame(minHeight: 150)
-                            .opacity(1)
-                        Spacer()
+                    DatePicker("Due date", selection: $dueDate, in: Date.now... , displayedComponents: .date)
+                    Picker("Priority", selection: $priority) {
+                        ForEach(PriorityEnum.allCases, id: \.self) { priority in
+                            Text(priority.rawValue).tag(priority)
+                        }
                     }
+                    Toggle("Favorite", isOn: $isFavorite)
                 }
-                DatePicker("Due date", selection: $dueDate, in: Date.now... , displayedComponents: .date)
-                Picker("Priority", selection: $priority) {
-                    ForEach(PriorityEnum.allCases, id: \.self) { priority in
-                        Text(priority.rawValue).tag(priority)
-                    }
-                }
-                Toggle("Favorite", isOn: $isFavorite)
                 
+                #if DEBUG
+                VStack(spacing: 20) {
+                    Button(action: prefilledFormInputs) {
+                        Text("Prefilled form inputs")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding(.top, 20)
+                .padding(.bottom, 20)
+                .background(Color(UIColor.systemGroupedBackground))
+                #endif
             }
+        }
+            
+            
             .navigationTitle("Add a Todo")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
