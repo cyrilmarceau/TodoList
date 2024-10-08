@@ -23,10 +23,6 @@ struct TodoListRowView: View {
             Text(todo.description)
                 .font(.subheadline)
                 .lineLimit(2)
-            
-            Text(todo.id.uuidString)
-                .font(.subheadline)
-                .lineLimit(2)
         }
     }
     

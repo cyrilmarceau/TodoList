@@ -37,7 +37,6 @@ struct EditTodoView: View {
     var body: some View {
         NavigationStack {NavigationStack {
             VStack(spacing: 0) {
-                Text(todo.id.uuidString)
                 Form {
                     TextField(text: $title) {
                         Text("Hi, I'm a placeholder text.")

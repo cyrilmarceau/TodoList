@@ -18,9 +18,7 @@ struct TodoDetailView: View {
         NavigationView {
             List {
                 Section {
-                    Text(todo.id.uuidString)
                     HStack {
-                      
                         Text(todo.title)
                             .font(.headline)
                         Spacer()
