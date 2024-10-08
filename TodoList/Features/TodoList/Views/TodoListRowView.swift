@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct TodoListRowView: View {
-    let todo: Todo
-    let vm: TodoListViewModel
+    @Binding var todo: Todo
+    @Binding var vm: TodoListViewModel
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -23,16 +23,6 @@ struct TodoListRowView: View {
             Text(todo.description)
                 .font(.subheadline)
                 .lineLimit(2)
-        }.swipeActions(edge: .leading) {
-            Button {
-                vm.toggleToFavorite(todo: todo)
-            } label: {
-                if todo.isFavorite {
-                    Label("Read", systemImage: "envelope.open")
-                } else {
-                    Label("Unread", systemImage: "envelope.badge")
-                }
-            }
         }
     }
     
@@ -49,5 +39,19 @@ struct TodoListRowView: View {
 }
 
 #Preview {
-    TodoListRowView(todo: Todo(title: "Sample Todo", description: "This is a sample todo item", isCompleted: false, createdAt: Date(), updatedAt: Date(), priority: .medium, dueDate: Date().addingTimeInterval(86400), isFavorite: true), vm: TodoListViewModel())
+    TodoListRowView(
+        todo: .constant(
+            Todo(
+                title: "Sample Todo",
+                description: "This is a sample todo item",
+                isCompleted: false,
+                createdAt: Date(),
+                updatedAt: Date(),
+                priority: .medium,
+                dueDate: Date().addingTimeInterval(86400),
+                isFavorite: true
+                
+            )
+        ),
+        vm: .constant(TodoListViewModel()))
 }

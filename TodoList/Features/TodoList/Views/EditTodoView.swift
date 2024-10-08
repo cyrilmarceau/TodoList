@@ -1,16 +1,16 @@
 //
-//  AddTodoView.swift
+//  EditTodoView.swift
 //  TodoList
 //
-//  Created by Cyril Marceau on 02/10/2024.
+//  Created by MARCEAU Cyril on 08/10/2024.
 //
-
 import SwiftUI
 
 
-struct AddTodoView: View {
+struct EditTodoView: View {
     
     @Environment(\.dismiss) var dismiss
+    @Binding var todo: Todo
     @EnvironmentObject var vm: TodoListViewModel
     
     @State private var title: String = ""
@@ -18,6 +18,17 @@ struct AddTodoView: View {
     @State private var dueDate = Date()
     @State private var priority: PriorityEnum = .high
     @State private var isFavorite: Bool = false
+    
+    
+    init(todo: Binding<Todo>){
+        _todo = todo
+        _title = State(initialValue: todo.wrappedValue.title)
+        _description = State(initialValue: todo.wrappedValue.description)
+        _dueDate = State(initialValue: todo.wrappedValue.dueDate)
+        _priority = State(initialValue: todo.wrappedValue.priority)
+        _isFavorite = State(initialValue: todo.wrappedValue.isFavorite)
+    }
+
     
     var disableForm: Bool {
         title.isEmpty || description.isEmpty
@@ -56,58 +67,26 @@ struct AddTodoView: View {
                     }
                     Toggle("Favorite", isOn: $isFavorite)
                 }
-                
-                #if DEBUG
-                VStack(spacing: 20) {
-                    Button(action: prefilledFormInputs) {
-                        Text("Prefilled form inputs")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .padding(.horizontal)
-                }
-                .padding(.top, 20)
-                .padding(.bottom, 20)
-                .background(Color(UIColor.systemGroupedBackground))
-                #endif
             }
         }
-            
-            
-            .navigationTitle("Add a Todo")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "xmark.circle")
-                    }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        let td = Todo(
-                            title: title,
-                            description: description,
-                            isCompleted: false,
-                            createdAt: Date(),
-                            updatedAt: Date(),
-                            priority: PriorityEnum.high,
-                            dueDate: dueDate,
-                            isFavorite: isFavorite
-                        )
-                        
-                        vm.addTodo(todo: td)
-                        
-                        dismiss()
-                    }) {
-                        Text("Save")
-                    }.disabled(disableForm)
+        .navigationTitle("Edit a Todo")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "xmark.circle")
                 }
             }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    
+                }) {
+                    Text("Save")
+                }.disabled(disableForm)
+            }
+        }
             
         }
     }

@@ -18,7 +18,7 @@ struct FavoriteTodoView: View {
             todoList
                 .searchable(text: $vm.searchText, prompt: "Search a Todo")
                 .listStyle(.plain)
-                .navigationTitle("In favorites")
+                .navigationTitle("In favorites (\(vm.favoritesFilteredAndSortedTodos.count))")
                 .toolbar {
                     Menu {
                         EditToolBarButton
@@ -44,10 +44,10 @@ struct FavoriteTodoView: View {
     private var todoList: some View {
         List {
             ForEach(vm.favoritesFilteredAndSortedTodos) { todo in
-                NavigationLink(destination: TodoDetailView(todo: todo)) {
+                NavigationLink(destination: TodoDetailView(todo: .constant(todo))) {
                     TodoListRowView(
-                        todo: todo,
-                        vm: TodoListViewModel()
+                        todo: .constant(todo),
+                        vm: .constant(TodoListViewModel())
                     )
                 }
             }.onDelete(perform: delete)

@@ -76,13 +76,11 @@ class TodoListViewModel: ObservableObject {
     
     
     func toggleToFavorite(todo: Todo) {
-        print("Swiped to favorite \(todo.id)")
-        
-        let index = todoList.firstIndex(where: {$0.id == todo.id})
-       
-        if index {
-            print(todoList[td])
+        if let index = todoList.firstIndex(where: {$0.id == todo.id}) {
+            todoList[index].isFavorite.toggle()
         }
+       
+       
         
     }
     

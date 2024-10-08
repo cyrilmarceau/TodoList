@@ -19,13 +19,13 @@ struct TodoListView: View {
             todoList
                 .searchable(text: $vm.searchText, prompt: "Search a To-Do")
                 .listStyle(.plain)
-                .navigationTitle("Tasks")
+                .navigationTitle("Tasks (\(vm.todoList.count))")
                 .toolbar {
                     Menu {
                         EditToolBarButton
                         AddToolBarButton
                         OrderToolBarButton
-                      
+                        
                     } label : {
                         Label("Options", systemImage: "ellipsis.circle")
                     }.sheet(
@@ -47,10 +47,10 @@ struct TodoListView: View {
     private var todoList: some View {
         List {
             ForEach(vm.filteredAndSortedTodos) { todo in
-                NavigationLink(destination: TodoDetailView(todo: todo)) {
+                NavigationLink(destination: TodoDetailView(todo: .constant(todo))) {
                     TodoListRowView(
-                        todo: todo,
-                        vm: TodoListViewModel()
+                        todo: .constant(todo),
+                        vm: .constant(TodoListViewModel())
                     )
                 }
             }.onDelete(perform: delete)
