@@ -79,9 +79,13 @@ class TodoListViewModel: ObservableObject {
         if let index = todoList.firstIndex(where: {$0.id == todo.id}) {
             todoList[index].isFavorite.toggle()
         }
-       
-       
+    }
+    
+    func editTodo(todo: Todo) {
         
+        if let index = todoList.firstIndex(where: {$0.id == todo.id}) {
+            todoList[index] = todo
+        }
     }
     
     

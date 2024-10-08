@@ -37,6 +37,7 @@ struct EditTodoView: View {
     var body: some View {
         NavigationStack {NavigationStack {
             VStack(spacing: 0) {
+                Text(todo.id.uuidString)
                 Form {
                     TextField(text: $title) {
                         Text("Hi, I'm a placeholder text.")
@@ -81,7 +82,18 @@ struct EditTodoView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
-                    
+                    vm.editTodo(todo: Todo(
+                        id: todo.id,
+                        title: title,
+                        description: description,
+                        isCompleted: true,
+                        createdAt: todo.createdAt,
+                        updatedAt: Date(),
+                        priority: priority,
+                        dueDate: dueDate,
+                        isFavorite: isFavorite
+                    ))
+                    dismiss()
                 }) {
                     Text("Save")
                 }.disabled(disableForm)
@@ -101,5 +113,5 @@ struct EditTodoView: View {
 }
 
 #Preview {
-    AddTodoView()
+    // EditTodoView()
 }
