@@ -11,7 +11,7 @@ struct Todo: Identifiable, Encodable, Decodable, Equatable {
     var id = UUID()
     let title: String
     let description: String
-    let isCompleted: Bool
+    var isCompleted: Bool
     let createdAt: Date
     let updatedAt: Date
     let priority: PriorityEnum

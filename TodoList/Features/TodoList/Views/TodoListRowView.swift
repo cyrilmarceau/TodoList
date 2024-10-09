@@ -23,7 +23,7 @@ struct TodoListRowView: View {
             Text(todo.description)
                 .font(.subheadline)
                 .lineLimit(2)
-        }
+        }.strikethrough(todo.isCompleted)
     }
     
     private var dueDateView: some View {

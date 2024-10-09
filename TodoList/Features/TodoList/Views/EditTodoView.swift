@@ -18,6 +18,7 @@ struct EditTodoView: View {
     @State private var dueDate = Date()
     @State private var priority: PriorityEnum = .high
     @State private var isFavorite: Bool = false
+    @State private var isCompleted: Bool = false
     
     
     init(todo: Binding<Todo>){
@@ -27,6 +28,7 @@ struct EditTodoView: View {
         _dueDate = State(initialValue: todo.wrappedValue.dueDate)
         _priority = State(initialValue: todo.wrappedValue.priority)
         _isFavorite = State(initialValue: todo.wrappedValue.isFavorite)
+        _isCompleted = State(initialValue: todo.wrappedValue.isCompleted)
     }
 
     
@@ -66,6 +68,7 @@ struct EditTodoView: View {
                         }
                     }
                     Toggle("Favorite", isOn: $isFavorite)
+                    Toggle("Completed", isOn: $isCompleted)
                 }
             }
         }
@@ -85,7 +88,7 @@ struct EditTodoView: View {
                         id: todo.id,
                         title: title,
                         description: description,
-                        isCompleted: true,
+                        isCompleted: isCompleted,
                         createdAt: todo.createdAt,
                         updatedAt: Date(),
                         priority: priority,
@@ -101,16 +104,18 @@ struct EditTodoView: View {
             
         }
     }
-    
-    private func prefilledFormInputs() {
-        title = "Hello \(vm.todoList.count)"
-        description = "World \(vm.todoList.count)"
-        dueDate = Date().addingTimeInterval(TimeInterval(86400 * Int.random(in: 1..<60)))
-        priority = PriorityEnum.random()
-        isFavorite = arc4random_uniform(2) == 0
-    }
+
 }
 
 #Preview {
-    // EditTodoView()
+    EditTodoView(todo: .constant(Todo(
+        title: "Faire les courses",
+        description: "Acheter des fruits, légumes et du pain",
+        isCompleted: false,
+        createdAt: Date(),
+        updatedAt: Date(),
+        priority: .medium,
+        dueDate: Date().addingTimeInterval(60 * 60 * 24),
+        isFavorite: false
+    )))
 }
